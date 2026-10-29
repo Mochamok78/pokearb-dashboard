@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokearb TCG Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { background: #0f172a; color: #e2e8f0; }
+    .card { background: #1e293b; border: 1px solid #334155; }
+    .bot-active { background: #166534; }
+    .bot-idle { background: #854d0e; }
+    .bot-offline { background: #7f1d1d; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 border-r border-slate-700 p-4 flex flex-col">
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-indigo-400"></i> Pokearb
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">All-in-One TCG Middleman</p>
+      </div>
+
+      <nav class="space-y-1 flex-1">
+        <button onclick="showSection('overview')" class="nav-btn w-full text-left px-3 py-2 rounded-lg bg-indigo-600 text-white flex items-center gap-2">
+          <i class="fa-solid fa-chart-line"></i> Overview
+        </button>
+        <button onclick="showSection('search')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-search"></i> Search Bot
+        </button>
+        <button onclick="showSection('research')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-microscope"></i> Research Bot
+        </button>
+        <button onclick="showSection('sales')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-tags"></i> Sales Bot
+        </button>
+        <button onclick="showSection('auth')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved"></i> Auth Bot
+        </button>
+        <button onclick="showSection('finance')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
+          <i class="fa-solid fa-calculator"></i> Finance Bot
+        </button>
+      </nav>
+
+      <div class="mt-auto pt-4 border-t border-slate-700 text-xs text-slate-500">
+        pokearb.org<br>Dashboard v1.1
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 overflow-auto p-6">
+      <!-- Overview -->
+      <section id="overview" class="section">
+        <h2 class="text-2xl font-semibold mb-6">Deal Overview</h2>
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="card rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <div><p class="text-sm text-slate-400">Searching Bot</p><p class="text-lg font-semibold">Active</p></div>
+              <span class="bot-active text-xs px-2 py-1 rounded-full">RUNNING</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-2">Last scan: 4 min ago • 12 new listings</p>
+          </div>
+          <div class="card rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <div><p class="text-sm text-slate-400">Research Bot</p><p class="text-lg font-semibold">Active</p></div>
+              <span class="bot-active text-xs px-2 py-1 rounded-full">RUNNING</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-2">Analyzing comps • 8 flagged deals</p>
+          </div>
+          <div class="card rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <div><p class="text-sm text-slate-400">Sales Bot</p><p class="text-lg font-semibold">Ready</p></div>
+              <span class="bot-idle text-xs px-2 py-1 rounded-full">STANDBY</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-2">3 listings pending approval</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold text-green-400">$1,240</p><p class="text-xs text-slate-400">Potential Profit</p></div>
+          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold">27</p><p class="text-xs text-slate-400">Deals Under Review</p></div>
+          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold text-indigo-400">4</p><p class="text-xs text-slate-400">Active TCGs</p></div>
+          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold">18%</p><p class="text-xs text-slate-400">Avg Margin</p></div>
+        </div>
+        <div class="card rounded-xl overflow-hidden">
+          <div class="px-5 py-3 border-b border-slate-700"><h3 class="font-medium">Flagged Deals</h3></div>
+          <table class="w-full text-sm">
+            <thead class="bg-slate-800 text-slate-400">
+              <tr>
+                <th class="text-left px-5 py-3">Card</th>
+                <th class="text-left px-5 py-3">Game</th>
+                <th class="text-right px-5 py-3">Ask</th>
+                <th class="text-right px-5 py-3">Market</th>
+                <th class="text-right px-5 py-3">Margin</th>
+                <th class="text-center px-5 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody id="dealsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Search Bot -->
+      <section id="search" class="section hidden">
+        <h2 class="text-2xl font-semibold mb-4">Search Bot</h2>
+        <div class="card rounded-xl p-6 mb-4">
+          <p class="text-slate-400 mb-4">Search live eBay listings (requires API keys in .env).</p>
+          <div class="flex gap-3 mb-4">
+            <input id="searchQuery" type="text" placeholder="e.g. charizard base set" class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-sm">
+            <button onclick="runSearch()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium">Search eBay</button>
+          </div>
+          <div id="searchStatus" class="text-sm text-slate-400 mb-4"></div>
+          <div id="searchResults" class="space-y-3"></div>
+        </div>
+      </section>
+
+      <!-- Research Bot -->
+      <section id="research" class="section hidden">
+        <h2 class="text-2xl font-semibold mb-4">Research Bot</h2>
+        <div class="card rounded-xl p-6">
+          <p class="text-slate-400 mb-4">Pulls comps, gem rates (PSA/CGC), population reports, and calculates true margin after fees.</p>
+          <ul class="list-disc list-inside text-sm space-y-1 text-slate-300">
+            <li>eBay sold comps (last 30 days)</li>
+            <li>TCGPlayer market price</li>
+            <li>PSA 10 / CGC Pristine gem rate</li>
+            <li>Break-even calculator (grading + shipping + fees)</li>
+          </ul>
+          <button class="mt-4 px-4 py-2 bg-indigo-600 rounded-lg text-sm">Analyze Selected Deals</button>
+        </div>
+      </section>
+
+      <!-- Sales Bot -->
+      <section id="sales" class="section hidden">
+        <h2 class="text-2xl font-semibold mb-4">Sales Bot</h2>
+        <div class="card rounded-xl p-6">
+          <p class="text-slate-400 mb-4">Helps list graded/raw cards, suggests prices, drafts messages, and tracks offers. You approve every listing.</p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="bg-slate-800 p-3 rounded">
+              <p class="font-medium">Pending Listings</p>
+              <p class="text-slate-400 mt-1">3 cards ready for your approval</p>
+            </div>
+            <div class="bg-slate-800 p-3 rounded">
+              <p class="font-medium">Active Offers</p>
+              <p class="text-slate-400 mt-1">2 offers waiting for response</p>
+            </div>
+          </div>
+          <button class="mt-4 px-4 py-2 bg-green-600 rounded-lg text-sm">Review Pending Listings</button>
+        </div>
+      </section>
+
+      <!-- Auth Bot -->
+      <section id="auth" class="section hidden">
+        <h2 class="text-2xl font-semibold mb-4">Authentication Bot</h2>
+        <div class="card rounded-xl p-6">
+          <p class="text-slate-400 mb-4">Flags potential counterfeits and checks centering/edges/surface from photos before you buy.</p>
+          <p class="text-sm text-yellow-400">Recommended before any high-value raw card purchase.</p>
+        </div>
+      </section>
+
+      <!-- Finance Bot -->
+      <section id="finance" class="section hidden">
+        <h2 class="text-2xl font-semibold mb-4">Finance Bot</h2>
+        <div class="card rounded-xl p-6">
+          <p class="text-slate-400 mb-4">Tracks cost basis, grading fees, shipping, platform fees, FX, and true profit per card.</p>
+          <div class="grid grid-cols-3 gap-4 mt-4 text-center">
+            <div><p class="text-xl font-bold">$4,820</p><p class="text-xs text-slate-400">Total Invested</p></div>
+            <div><p class="text-xl font-bold text-green-400">$1,240</p><p class="text-xs text-slate-400">Unrealized Profit</p></div>
+            <div><p class="text-xl font-bold">22%</p><p class="text-xs text-slate-400">Portfolio Margin</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const deals = [
+      { name: "Charizard Base Set Unlimited", game: "Pokémon", ask: 420, market: 580, margin: 27 },
+      { name: "Luffy Gear 5 AA (OP05)", game: "One Piece", ask: 185, market: 240, margin: 23 },
+      { name: "Riftbound Founder Pack", game: "Riftbound", ask: 95, market: 140, margin: 32 },
+      { name: "Mewtwo EX 151 SIR", game: "Pokémon", ask: 310, market: 390, margin: 20 },
+      { name: "Shanks OP09 Alt Art", game: "One Piece", ask: 75, market: 110, margin: 31 },
+    ];
+
+    function renderDeals() {
+      const body = document.getElementById('dealsBody');
+      body.innerHTML = deals.map(d => `
+        <tr class="hover:bg-slate-800/50">
+          <td class="px-5 py-3 font-medium">${d.name}</td>
+          <td class="px-5 py-3">${d.game}</td>
+          <td class="px-5 py-3 text-right">$${d.ask}</td>
+          <td class="px-5 py-3 text-right">$${d.market}</td>
+          <td class="px-5 py-3 text-right text-green-400">+${d.margin}%</td>
+          <td class="px-5 py-3 text-center"><button class="text-xs bg-indigo-600 px-3 py-1 rounded">Review</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white');
+      });
+      event.currentTarget.classList.add('bg-indigo-600', 'text-white');
+    }
+
+    async function runSearch() {
+      const query = document.getElementById('searchQuery').value.trim();
+      const status = document.getElementById('searchStatus');
+      const results = document.getElementById('searchResults');
+      if (!query) {
+        status.textContent = 'Enter a search term';
+        return;
+      }
+      status.textContent = 'Searching eBay...';
+      results.innerHTML = '';
+      try {
+        const res = await fetch('/api/search', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query, limit: 8 })
+        });
+        const data = await res.json();
+        if (data.error) {
+          status.textContent = 'Error: ' + data.error;
+          return;
+        }
+        status.textContent = `Found ${data.items.length} listings`;
+        results.innerHTML = data.items.map(item => `
+          <div class="bg-slate-800 rounded-lg p-3 flex gap-3">
+            ${item.image ? `<img src="${item.image}" class="w-16 h-16 object-cover rounded">` : ''}
+            <div class="flex-1">
+              <a href="${item.url}" target="_blank" class="font-medium hover:text-indigo-400">${item.title}</a>
+              <p class="text-green-400 text-sm">$${item.price} ${item.currency || ''}</p>
+              <p class="text-xs text-slate-400">${item.condition || 'N/A'}</p>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        status.textContent = 'Failed to reach server. Is the dashboard running with node server.js?';
+      }
+    }
+
+    renderDeals();
+  </script>
+</body>
+</html>
