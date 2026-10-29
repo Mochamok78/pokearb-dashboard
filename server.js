@@ -114,7 +114,7 @@ app.post('/api/research', async (req, res) => {
       return {
         name: card.name,
         set: card.set?.name || '',
-        image: card.images?.small || card.images?.large || null,
+        image: card.images?.small || card.images?.large || card.image || null,
         psa10: grades.psa10?.medianPrice || null,
         psa9: grades.psa9?.medianPrice || null,
         tag10: grades.tag10?.medianPrice || null,
@@ -127,7 +127,6 @@ app.post('/api/research', async (req, res) => {
       return res.json({ error: 'No cards found', cards: [] });
     }
 
-    // Save the top result
     const top = cards[0];
     await supabase.from('research').insert({
       card_name: top.name,
@@ -140,8 +139,12 @@ app.post('/api/research', async (req, res) => {
 
     res.json({ cards });
   } catch (err) {
-    console.error(err.response?.data || err.message);
-    res.status(500).json({ error: err.response?.data?.error || err.message });
+    const msg = err.response?.data?.error || err.message;
+    console.error(msg);
+    if (msg && msg.includes('credit')) {
+      return res.status(429).json({ error: 'Daily free limit reached. Try again tomorrow or upgrade the key.' });
+    }
+    res.status(500).json({ error: msg });
   }
 });
 
