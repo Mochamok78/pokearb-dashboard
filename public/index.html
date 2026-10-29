@@ -206,6 +206,15 @@
       event.currentTarget.classList.add('bg-indigo-600', 'text-white');
     }
 
+    function showLoading(container) {
+      container.innerHTML = `
+        <div class="flex items-center justify-center py-8 text-slate-400">
+          <i class="fa-solid fa-spinner fa-spin text-2xl mr-3"></i>
+          <span>Loading...</span>
+        </div>
+      `;
+    }
+
     async function runSearch() {
       const query = document.getElementById('searchQuery').value.trim();
       const status = document.getElementById('searchStatus');
@@ -214,8 +223,8 @@
         status.textContent = 'Enter a search term';
         return;
       }
-      status.textContent = 'Searching eBay...';
-      results.innerHTML = '';
+      status.textContent = '';
+      showLoading(results);
       try {
         const res = await fetch('/api/search', {
           method: 'POST',
@@ -225,6 +234,7 @@
         const data = await res.json();
         if (data.error) {
           status.textContent = 'Error: ' + data.error;
+          results.innerHTML = '';
           return;
         }
         status.textContent = `Found ${data.items.length} listings`;
@@ -240,6 +250,7 @@
         `).join('');
       } catch (err) {
         status.textContent = 'Failed to reach server.';
+        results.innerHTML = '';
       }
     }
 
@@ -251,8 +262,8 @@
         status.textContent = 'Enter a card name';
         return;
       }
-      status.textContent = 'Researching...';
-      results.innerHTML = '';
+      status.textContent = '';
+      showLoading(results);
       try {
         const res = await fetch('/api/research', {
           method: 'POST',
@@ -262,6 +273,7 @@
         const data = await res.json();
         if (data.error) {
           status.textContent = 'Error: ' + data.error;
+          results.innerHTML = '';
           return;
         }
         status.textContent = data.product ? 'Done' : 'No results';
@@ -283,6 +295,7 @@
         `;
       } catch (err) {
         status.textContent = 'Failed to reach server.';
+        results.innerHTML = '';
       }
     }
 
