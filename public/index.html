@@ -258,15 +258,18 @@
       const modal = document.createElement('div');
       modal.className = 'fixed inset-0 bg-black/70 flex items-center justify-center z-50';
       modal.innerHTML = `
-        <div class="bg-slate-800 rounded-xl p-6 max-w-lg w-full mx-4">
+        <div class="bg-slate-800 rounded-xl p-6 max-w-2xl w-full mx-4">
           <div class="flex justify-between items-start mb-4">
-            <div>
-              <h3 class="text-xl font-semibold">${card.name}</h3>
-              <p class="text-sm text-slate-400">${card.set}</p>
+            <div class="flex gap-4">
+              ${card.image ? `<img src="${card.image}" class="w-24 h-auto rounded" alt="${card.name}">` : ''}
+              <div>
+                <h3 class="text-xl font-semibold">${card.name}</h3>
+                <p class="text-sm text-slate-400">${card.set}</p>
+              </div>
             </div>
             <button onclick="this.closest('.fixed').remove()" class="text-slate-400 hover:text-white text-2xl">&times;</button>
           </div>
-          <div class="grid grid-cols-2 gap-4 text-sm">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
             <div><p class="text-slate-400">PSA 10</p><p class="text-green-400 font-semibold text-xl">${card.psa10 ? '$' + card.psa10 : 'N/A'}</p></div>
             <div><p class="text-slate-400">PSA 9</p><p class="text-green-400 font-semibold text-xl">${card.psa9 ? '$' + card.psa9 : 'N/A'}</p></div>
             <div><p class="text-slate-400">TAG 10</p><p class="text-green-400 font-semibold text-xl">${card.tag10 ? '$' + card.tag10 : 'N/A'}</p></div>
@@ -302,13 +305,14 @@
         }
         const cards = data.cards || [];
         status.textContent = `Found ${cards.length} cards`;
-        results.innerHTML = cards.map((card, i) => `
-          <div class="bg-slate-800 rounded-lg p-4 flex items-center justify-between">
-            <div>
+        results.innerHTML = cards.map((card) => `
+          <div class="bg-slate-800 rounded-lg p-3 flex items-center gap-4">
+            ${card.image ? `<img src="${card.image}" class="w-16 h-auto rounded object-cover" alt="${card.name}">` : '<div class="w-16 h-20 bg-slate-700 rounded"></div>'}
+            <div class="flex-1">
               <p class="font-medium">${card.name}</p>
               <p class="text-sm text-slate-400">${card.set}</p>
             </div>
-            <button onclick="viewGrades(${JSON.stringify(card).replace(/"/g, '"')})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm">View Grades</button>
+            <button onclick="viewGrades(${JSON.stringify(card).replace(/"/g, '"')})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm whitespace-nowrap">View Grades</button>
           </div>
         `).join('');
       } catch (err) {
