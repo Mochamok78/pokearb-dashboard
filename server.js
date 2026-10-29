@@ -92,13 +92,11 @@ app.post('/api/search', async (req, res) => {
   }
 });
 
-// Safe research endpoint (PriceCharting integration coming next)
 app.post('/api/research', async (req, res) => {
   try {
     const { query } = req.body;
     if (!query) return res.status(400).json({ error: 'Query required' });
 
-    // Placeholder — will be replaced with real graded data source
     res.json({
       message: 'Research endpoint ready',
       query,
