@@ -105,45 +105,40 @@ app.post('/api/research', async (req, res) => {
       params: {
         search: query,
         includeEbay: true,
-        limit: 5
+        limit: 10
       }
     });
 
-    const cards = response.data.data || [];
+    const cards = (response.data.data || []).map(card => {
+      const grades = card.ebay?.salesByGrade || {};
+      return {
+        name: card.name,
+        set: card.set?.name || '',
+        image: card.images?.small || card.images?.large || null,
+        psa10: grades.psa10?.medianPrice || null,
+        psa9: grades.psa9?.medianPrice || null,
+        tag10: grades.tag10?.medianPrice || null,
+        bgs10: grades.bgs10?.medianPrice || null,
+        ungraded: card.prices?.market || null
+      };
+    });
+
     if (cards.length === 0) {
-      return res.json({ error: 'No cards found', query });
+      return res.json({ error: 'No cards found', cards: [] });
     }
 
+    // Save the top result
     const top = cards[0];
-    const grades = top.ebay?.salesByGrade || {};
-
-    const psa10 = grades.psa10?.medianPrice || null;
-    const psa9 = grades.psa9?.medianPrice || null;
-    const tag10 = grades.tag10?.medianPrice || null;
-    const bgs10 = grades.bgs10?.medianPrice || null;
-    const ungraded = top.prices?.market || null;
-
-    const { data: saved, error } = await supabase.from('research').insert({
-      card_name: top.name || query,
-      set_name: top.set?.name || null,
+    await supabase.from('research').insert({
+      card_name: top.name,
+      set_name: top.set,
       grade: 'PSA 10',
-      market_value: psa10,
-      notes: JSON.stringify({ psa9, tag10, bgs10, ungraded }),
+      market_value: top.psa10,
+      notes: JSON.stringify({ psa9: top.psa9, tag10: top.tag10, bgs10: top.bgs10, ungraded: top.ungraded }),
       status: 'completed'
-    }).select();
-
-    if (error) console.error('Supabase error:', error);
-
-    res.json({
-      product: top.name,
-      set: top.set?.name,
-      psa10,
-      psa9,
-      tag10,
-      bgs10,
-      ungraded,
-      saved: saved?.[0] || null
     });
+
+    res.json({ cards });
   } catch (err) {
     console.error(err.response?.data || err.message);
     res.status(500).json({ error: err.response?.data?.error || err.message });
