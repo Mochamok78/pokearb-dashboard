@@ -3,7 +3,6 @@ const express = require('express');
 const axios = require('axios');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
-const { PriceChartingClient } = require('@deansasek/pricecharting-api/sdk');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,8 +11,6 @@ const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
 );
-
-const pcClient = new PriceChartingClient({ requestDelay: 800 });
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -95,50 +92,19 @@ app.post('/api/search', async (req, res) => {
   }
 });
 
-// PriceCharting graded research endpoint
+// Safe research endpoint (PriceCharting integration coming next)
 app.post('/api/research', async (req, res) => {
   try {
     const { query } = req.body;
     if (!query) return res.status(400).json({ error: 'Query required' });
 
-    const searchResults = await pcClient.search(query, { category: 'pokemon-cards' });
-    if (!searchResults.success || !searchResults.products?.length) {
-      return res.json({ error: 'No results found', products: [] });
-    }
-
-    const top = searchResults.products[0];
-    const detail = await pcClient.getProductPrice(top.gameSlug || top.consoleSlug, top.productSlug || top.slug);
-
-    const grades = (detail.grades || []).map(g => ({
-      grade: g.grade,
-      price: g.price
-    }));
-
-    const psa10 = grades.find(g => g.grade?.toLowerCase().includes('psa 10'))?.price || null;
-    const ungraded = grades.find(g => g.grade?.toLowerCase().includes('ungraded'))?.price || null;
-
-    // Save to research table
-    const { data: saved, error } = await supabase.from('research').insert({
-      card_name: top.productName || query,
-      set_name: top.consoleName || null,
-      grade: 'PSA 10',
-      market_value: psa10,
-      notes: JSON.stringify({ ungraded, allGrades: grades }),
-      status: 'completed'
-    }).select();
-
-    if (error) console.error('Supabase insert error:', error);
-
+    // Placeholder — will be replaced with real graded data source
     res.json({
-      product: top.productName,
-      set: top.consoleName,
-      psa10,
-      ungraded,
-      grades,
-      saved: saved?.[0] || null
+      message: 'Research endpoint ready',
+      query,
+      note: 'Waiting for graded price source integration'
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
