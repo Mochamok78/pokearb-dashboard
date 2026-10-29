@@ -7,95 +7,94 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body { background: #0f172a; color: #e2e8f0; }
-    .card { background: #1e293b; border: 1px solid #334155; }
-    .bot-active { background: #166534; }
-    .bot-idle { background: #854d0e; }
-    .bot-offline { background: #7f1d1d; }
+    body { background: #0b1120; color: #e2e8f0; }
+    .card { background: #111827; border: 1px solid #1f2937; }
+    .nav-btn { transition: all 0.15s; }
+    .nav-btn.active { background: #4f46e5; color: white; }
   </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen antialiased">
   <div class="flex h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 border-r border-slate-700 p-4 flex flex-col">
-      <div class="mb-8">
-        <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+    <aside class="w-64 bg-[#0f172a] border-r border-slate-800 p-5 flex flex-col">
+      <div class="mb-10">
+        <h1 class="text-xl font-semibold text-white flex items-center gap-2">
           <i class="fa-solid fa-layer-group text-indigo-400"></i> Pokearb
         </h1>
-        <p class="text-xs text-slate-400 mt-1">All-in-One TCG Middleman</p>
+        <p class="text-xs text-slate-500 mt-1">TCG Middleman Dashboard</p>
       </div>
 
       <nav class="space-y-1 flex-1">
-        <button onclick="showSection('overview')" class="nav-btn w-full text-left px-3 py-2 rounded-lg bg-indigo-600 text-white flex items-center gap-2">
-          <i class="fa-solid fa-chart-line"></i> Overview
+        <button onclick="showSection('overview')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium">
+          <i class="fa-solid fa-chart-line w-4"></i> Overview
         </button>
-        <button onclick="showSection('search')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-search"></i> Search Bot
+        <button onclick="showSection('search')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-800/70 flex items-center gap-3 text-sm">
+          <i class="fa-solid fa-search w-4"></i> Search Bot
         </button>
-        <button onclick="showSection('research')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-microscope"></i> Research Bot
+        <button onclick="showSection('research')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-800/70 flex items-center gap-3 text-sm">
+          <i class="fa-solid fa-microscope w-4"></i> Research Bot
         </button>
-        <button onclick="showSection('sales')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-tags"></i> Sales Bot
+        <button onclick="showSection('sales')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-800/70 flex items-center gap-3 text-sm">
+          <i class="fa-solid fa-tags w-4"></i> Sales Bot
         </button>
-        <button onclick="showSection('auth')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-shield-halved"></i> Auth Bot
+        <button onclick="showSection('auth')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-800/70 flex items-center gap-3 text-sm">
+          <i class="fa-solid fa-shield-halved w-4"></i> Auth Bot
         </button>
-        <button onclick="showSection('finance')" class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2">
-          <i class="fa-solid fa-calculator"></i> Finance Bot
+        <button onclick="showSection('finance')" class="nav-btn w-full text-left px-3 py-2.5 rounded-lg hover:bg-slate-800/70 flex items-center gap-3 text-sm">
+          <i class="fa-solid fa-calculator w-4"></i> Finance Bot
         </button>
       </nav>
 
-      <div class="mt-auto pt-4 border-t border-slate-700 text-xs text-slate-500">
-        pokearb.org<br>Dashboard v1.1
+      <div class="mt-auto pt-4 border-t border-slate-800 text-xs text-slate-500">
+        pokearb.org
       </div>
     </aside>
 
     <!-- Main -->
-    <main class="flex-1 overflow-auto p-6">
+    <main class="flex-1 overflow-auto p-8">
       <!-- Overview -->
       <section id="overview" class="section">
-        <h2 class="text-2xl font-semibold mb-6">Deal Overview</h2>
-        <div class="grid grid-cols-3 gap-4 mb-6">
-          <div class="card rounded-xl p-4">
+        <h2 class="text-2xl font-semibold mb-8">Deal Overview</h2>
+        <div class="grid grid-cols-3 gap-5 mb-8">
+          <div class="card rounded-xl p-5">
             <div class="flex items-center justify-between">
-              <div><p class="text-sm text-slate-400">Searching Bot</p><p class="text-lg font-semibold">Active</p></div>
-              <span class="bot-active text-xs px-2 py-1 rounded-full">RUNNING</span>
+              <div><p class="text-sm text-slate-400">Searching Bot</p><p class="text-lg font-semibold mt-1">Active</p></div>
+              <span class="bg-emerald-900/40 text-emerald-400 text-xs px-2.5 py-1 rounded-full">RUNNING</span>
             </div>
-            <p class="text-xs text-slate-500 mt-2">Last scan: 4 min ago • 12 new listings</p>
+            <p class="text-xs text-slate-500 mt-3">Last scan: 4 min ago</p>
           </div>
-          <div class="card rounded-xl p-4">
+          <div class="card rounded-xl p-5">
             <div class="flex items-center justify-between">
-              <div><p class="text-sm text-slate-400">Research Bot</p><p class="text-lg font-semibold">Active</p></div>
-              <span class="bot-active text-xs px-2 py-1 rounded-full">RUNNING</span>
+              <div><p class="text-sm text-slate-400">Research Bot</p><p class="text-lg font-semibold mt-1">Active</p></div>
+              <span class="bg-emerald-900/40 text-emerald-400 text-xs px-2.5 py-1 rounded-full">RUNNING</span>
             </div>
-            <p class="text-xs text-slate-500 mt-2">Analyzing comps • 8 flagged deals</p>
+            <p class="text-xs text-slate-500 mt-3">Analyzing comps</p>
           </div>
-          <div class="card rounded-xl p-4">
+          <div class="card rounded-xl p-5">
             <div class="flex items-center justify-between">
-              <div><p class="text-sm text-slate-400">Sales Bot</p><p class="text-lg font-semibold">Ready</p></div>
-              <span class="bot-idle text-xs px-2 py-1 rounded-full">STANDBY</span>
+              <div><p class="text-sm text-slate-400">Sales Bot</p><p class="text-lg font-semibold mt-1">Ready</p></div>
+              <span class="bg-amber-900/40 text-amber-400 text-xs px-2.5 py-1 rounded-full">STANDBY</span>
             </div>
-            <p class="text-xs text-slate-500 mt-2">3 listings pending approval</p>
+            <p class="text-xs text-slate-500 mt-3">3 listings pending</p>
           </div>
         </div>
-        <div class="grid grid-cols-4 gap-4 mb-6">
-          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold text-green-400">$1,240</p><p class="text-xs text-slate-400">Potential Profit</p></div>
-          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold">27</p><p class="text-xs text-slate-400">Deals Under Review</p></div>
-          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold text-indigo-400">4</p><p class="text-xs text-slate-400">Active TCGs</p></div>
-          <div class="card rounded-xl p-4 text-center"><p class="text-2xl font-bold">18%</p><p class="text-xs text-slate-400">Avg Margin</p></div>
+        <div class="grid grid-cols-4 gap-5 mb-8">
+          <div class="card rounded-xl p-5 text-center"><p class="text-2xl font-semibold text-emerald-400">$1,240</p><p class="text-xs text-slate-500 mt-1">Potential Profit</p></div>
+          <div class="card rounded-xl p-5 text-center"><p class="text-2xl font-semibold">27</p><p class="text-xs text-slate-500 mt-1">Deals Under Review</p></div>
+          <div class="card rounded-xl p-5 text-center"><p class="text-2xl font-semibold text-indigo-400">4</p><p class="text-xs text-slate-500 mt-1">Active TCGs</p></div>
+          <div class="card rounded-xl p-5 text-center"><p class="text-2xl font-semibold">18%</p><p class="text-xs text-slate-500 mt-1">Avg Margin</p></div>
         </div>
         <div class="card rounded-xl overflow-hidden">
-          <div class="px-5 py-3 border-b border-slate-700"><h3 class="font-medium">Flagged Deals</h3></div>
+          <div class="px-5 py-4 border-b border-slate-800"><h3 class="font-medium">Flagged Deals</h3></div>
           <table class="w-full text-sm">
-            <thead class="bg-slate-800 text-slate-400">
+            <thead class="bg-slate-800/50 text-slate-400">
               <tr>
-                <th class="text-left px-5 py-3">Card</th>
-                <th class="text-left px-5 py-3">Game</th>
-                <th class="text-right px-5 py-3">Ask</th>
-                <th class="text-right px-5 py-3">Market</th>
-                <th class="text-right px-5 py-3">Margin</th>
-                <th class="text-center px-5 py-3">Action</th>
+                <th class="text-left px-5 py-3 font-medium">Card</th>
+                <th class="text-left px-5 py-3 font-medium">Game</th>
+                <th class="text-right px-5 py-3 font-medium">Ask</th>
+                <th class="text-right px-5 py-3 font-medium">Market</th>
+                <th class="text-right px-5 py-3 font-medium">Margin</th>
+                <th class="text-center px-5 py-3 font-medium">Action</th>
               </tr>
             </thead>
             <tbody id="dealsBody"></tbody>
@@ -105,12 +104,12 @@
 
       <!-- Search Bot -->
       <section id="search" class="section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Search Bot</h2>
+        <h2 class="text-2xl font-semibold mb-6">Search Bot</h2>
         <div class="card rounded-xl p-6 mb-4">
-          <p class="text-slate-400 mb-4">Search live eBay listings (requires API keys in .env).</p>
+          <p class="text-slate-400 mb-4 text-sm">Search live eBay listings.</p>
           <div class="flex gap-3 mb-4">
-            <input id="searchQuery" type="text" placeholder="e.g. charizard base set" class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-sm">
-            <button onclick="runSearch()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium">Search eBay</button>
+            <input id="searchQuery" type="text" placeholder="e.g. charizard base set" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">
+            <button onclick="runSearch()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium">Search eBay</button>
           </div>
           <div id="searchStatus" class="text-sm text-slate-400 mb-4"></div>
           <div id="searchResults" class="space-y-3"></div>
@@ -119,83 +118,82 @@
 
       <!-- Research Bot -->
       <section id="research" class="section hidden">
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-semibold">Research Bot</h2>
-          <button onclick="loadHistory()" class="text-sm bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg flex items-center gap-2">
-            <i class="fa-solid fa-rotate"></i> Refresh History
+          <button onclick="loadHistory()" class="text-sm bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-2">
+            <i class="fa-solid fa-rotate"></i> Refresh
           </button>
         </div>
-        <div class="card rounded-xl p-6 mb-4">
-          <p class="text-slate-400 mb-4">Look up graded prices (PSA, TAG, BGS). Results saved to Supabase.</p>
+        <div class="card rounded-xl p-6 mb-5">
+          <p class="text-slate-400 mb-4 text-sm">Look up graded prices (PSA, TAG, BGS).</p>
           <div class="flex gap-3 mb-4">
-            <input id="researchQuery" type="text" placeholder="e.g. charizard base set" class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-sm">
-            <button onclick="runResearch()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium">Research</button>
+            <input id="researchQuery" type="text" placeholder="e.g. charizard base set" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">
+            <button onclick="runResearch()" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium">Research</button>
           </div>
           <div id="researchStatus" class="text-sm text-slate-400 mb-4"></div>
           <div id="researchResults" class="space-y-3"></div>
         </div>
 
-        <!-- Margin Calculator -->
-        <div class="card rounded-xl p-6 mb-4">
-          <h3 class="font-medium mb-3">Margin Calculator</h3>
-          <div class="grid grid-cols-2 gap-3 text-sm">
-            <div>
-              <label class="text-slate-400">Buy Price ($)</label>
-              <input id="buyPrice" type="number" placeholder="100" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 mt-1">
+        <div class="grid grid-cols-2 gap-5">
+          <div class="card rounded-xl p-6">
+            <h3 class="font-medium mb-4">Margin Calculator</h3>
+            <div class="space-y-3 text-sm">
+              <div>
+                <label class="text-slate-400">Buy Price ($)</label>
+                <input id="buyPrice" type="number" placeholder="100" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 mt-1 focus:outline-none focus:border-indigo-500">
+              </div>
+              <div>
+                <label class="text-slate-400">Market Price ($)</label>
+                <input id="marketPrice" type="number" placeholder="150" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 mt-1 focus:outline-none focus:border-indigo-500">
+              </div>
             </div>
-            <div>
-              <label class="text-slate-400">Market Price ($)</label>
-              <input id="marketPrice" type="number" placeholder="150" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 mt-1">
-            </div>
+            <button onclick="calcMargin()" class="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-sm">Calculate</button>
+            <div id="marginResult" class="mt-3 text-sm"></div>
           </div>
-          <button onclick="calcMargin()" class="mt-3 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm">Calculate</button>
-          <div id="marginResult" class="mt-3 text-sm"></div>
-        </div>
 
-        <!-- Research History -->
-        <div class="card rounded-xl p-6">
-          <h3 class="font-medium mb-3">Research History</h3>
-          <div id="historyList" class="space-y-2 text-sm"></div>
+          <div class="card rounded-xl p-6">
+            <h3 class="font-medium mb-4">Research History</h3>
+            <div id="historyList" class="space-y-2 text-sm max-h-64 overflow-auto"></div>
+          </div>
         </div>
       </section>
 
       <!-- Sales Bot -->
       <section id="sales" class="section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Sales Bot</h2>
+        <h2 class="text-2xl font-semibold mb-6">Sales Bot</h2>
         <div class="card rounded-xl p-6">
-          <p class="text-slate-400 mb-4">Helps list graded/raw cards, suggests prices, drafts messages, and tracks offers. You approve every listing.</p>
+          <p class="text-slate-400 mb-4 text-sm">List graded/raw cards, suggest prices, and track offers.</p>
           <div class="grid grid-cols-2 gap-4 text-sm">
-            <div class="bg-slate-800 p-3 rounded">
+            <div class="bg-slate-900 p-4 rounded-lg">
               <p class="font-medium">Pending Listings</p>
-              <p class="text-slate-400 mt-1">3 cards ready for your approval</p>
+              <p class="text-slate-500 mt-1">3 cards ready for approval</p>
             </div>
-            <div class="bg-slate-800 p-3 rounded">
+            <div class="bg-slate-900 p-4 rounded-lg">
               <p class="font-medium">Active Offers</p>
-              <p class="text-slate-400 mt-1">2 offers waiting for response</p>
+              <p class="text-slate-500 mt-1">2 offers waiting</p>
             </div>
           </div>
-          <button class="mt-4 px-4 py-2 bg-green-600 rounded-lg text-sm">Review Pending Listings</button>
         </div>
       </section>
 
       <!-- Auth Bot -->
       <section id="auth" class="section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Authentication Bot</h2>
+        <h2 class="text-2xl font-semibold mb-6">Authentication Bot</h2>
         <div class="card rounded-xl p-6">
-          <p class="text-slate-400 mb-4">Flags potential counterfeits and checks centering/edges/surface from photos before you buy.</p>
-          <p class="text-sm text-yellow-400">Recommended before any high-value raw card purchase.</p>
+          <p class="text-slate-400 mb-4 text-sm">Flags potential counterfeits and checks centering/edges/surface.</p>
+          <p class="text-sm text-amber-400">Recommended before high-value raw card purchases.</p>
         </div>
       </section>
 
       <!-- Finance Bot -->
       <section id="finance" class="section hidden">
-        <h2 class="text-2xl font-semibold mb-4">Finance Bot</h2>
+        <h2 class="text-2xl font-semibold mb-6">Finance Bot</h2>
         <div class="card rounded-xl p-6">
-          <p class="text-slate-400 mb-4">Tracks cost basis, grading fees, shipping, platform fees, FX, and true profit per card.</p>
+          <p class="text-slate-400 mb-4 text-sm">Tracks cost basis, grading fees, shipping, platform fees, and true profit.</p>
           <div class="grid grid-cols-3 gap-4 mt-4 text-center">
-            <div><p class="text-xl font-bold">$4,820</p><p class="text-xs text-slate-400">Total Invested</p></div>
-            <div><p class="text-xl font-bold text-green-400">$1,240</p><p class="text-xs text-slate-400">Unrealized Profit</p></div>
-            <div><p class="text-xl font-bold">22%</p><p class="text-xs text-slate-400">Portfolio Margin</p></div>
+            <div><p class="text-xl font-semibold">$4,820</p><p class="text-xs text-slate-500">Total Invested</p></div>
+            <div><p class="text-xl font-semibold text-emerald-400">$1,240</p><p class="text-xs text-slate-500">Unrealized Profit</p></div>
+            <div><p class="text-xl font-semibold">22%</p><p class="text-xs text-slate-500">Portfolio Margin</p></div>
           </div>
         </div>
       </section>
@@ -216,13 +214,13 @@
     function renderDeals() {
       const body = document.getElementById('dealsBody');
       body.innerHTML = deals.map(d => `
-        <tr class="hover:bg-slate-800/50">
-          <td class="px-5 py-3 font-medium">${d.name}</td>
-          <td class="px-5 py-3">${d.game}</td>
-          <td class="px-5 py-3 text-right">$${d.ask}</td>
-          <td class="px-5 py-3 text-right">$${d.market}</td>
-          <td class="px-5 py-3 text-right text-green-400">+${d.margin}%</td>
-          <td class="px-5 py-3 text-center"><button class="text-xs bg-indigo-600 px-3 py-1 rounded">Review</button></td>
+        <tr class="hover:bg-slate-800/40 border-b border-slate-800/50">
+          <td class="px-5 py-3.5 font-medium">${d.name}</td>
+          <td class="px-5 py-3.5 text-slate-400">${d.game}</td>
+          <td class="px-5 py-3.5 text-right">$${d.ask}</td>
+          <td class="px-5 py-3.5 text-right">$${d.market}</td>
+          <td class="px-5 py-3.5 text-right text-emerald-400">+${d.margin}%</td>
+          <td class="px-5 py-3.5 text-center"><button class="text-xs bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded">Review</button></td>
         </tr>
       `).join('');
     }
@@ -231,17 +229,19 @@
       document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('bg-indigo-600', 'text-white');
+        btn.classList.remove('active', 'bg-indigo-600', 'text-white');
+        btn.classList.add('hover:bg-slate-800/70');
       });
-      event.currentTarget.classList.add('bg-indigo-600', 'text-white');
+      event.currentTarget.classList.add('active');
+      event.currentTarget.classList.remove('hover:bg-slate-800/70');
       if (id === 'research') loadHistory();
     }
 
     function showLoading(container) {
       container.innerHTML = `
-        <div class="flex items-center justify-center py-8 text-slate-400">
-          <i class="fa-solid fa-spinner fa-spin text-2xl mr-3"></i>
-          <span>Loading...</span>
+        <div class="flex items-center justify-center py-10 text-slate-500">
+          <i class="fa-solid fa-spinner fa-spin text-xl mr-3"></i>
+          <span class="text-sm">Loading...</span>
         </div>
       `;
     }
@@ -270,12 +270,12 @@
         }
         status.textContent = `Found ${data.items.length} listings`;
         results.innerHTML = data.items.map(item => `
-          <div class="bg-slate-800 rounded-lg p-3 flex gap-3">
+          <div class="bg-slate-900 rounded-lg p-3 flex gap-3 border border-slate-800">
             ${item.image ? `<img src="${item.image}" class="w-16 h-16 object-cover rounded">` : ''}
             <div class="flex-1">
-              <a href="${item.url}" target="_blank" class="font-medium hover:text-indigo-400">${item.title}</a>
-              <p class="text-green-400 text-sm">$${item.price} ${item.currency || ''}</p>
-              <p class="text-xs text-slate-400">${item.condition || 'N/A'}</p>
+              <a href="${item.url}" target="_blank" class="font-medium hover:text-indigo-400 text-sm">${item.title}</a>
+              <p class="text-emerald-400 text-sm mt-0.5">$${item.price} ${item.currency || ''}</p>
+              <p class="text-xs text-slate-500">${item.condition || 'N/A'}</p>
             </div>
           </div>
         `).join('');
@@ -291,23 +291,23 @@
       const modal = document.createElement('div');
       modal.className = 'fixed inset-0 bg-black/70 flex items-center justify-center z-50';
       modal.innerHTML = `
-        <div class="bg-slate-800 rounded-xl p-6 max-w-2xl w-full mx-4">
-          <div class="flex justify-between items-start mb-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 max-w-2xl w-full mx-4">
+          <div class="flex justify-between items-start mb-5">
             <div class="flex gap-4">
-              ${card.image ? `<img src="${card.image}" class="w-24 h-auto rounded" alt="${card.name}">` : '<div class="w-24 h-32 bg-slate-700 rounded"></div>'}
+              ${card.image ? `<img src="${card.image}" class="w-24 h-auto rounded" alt="${card.name}">` : '<div class="w-24 h-32 bg-slate-800 rounded"></div>'}
               <div>
-                <h3 class="text-xl font-semibold">${card.name}</h3>
+                <h3 class="text-lg font-semibold">${card.name}</h3>
                 <p class="text-sm text-slate-400">${card.set}</p>
               </div>
             </div>
-            <button onclick="this.closest('.fixed').remove()" class="text-slate-400 hover:text-white text-2xl">&times;</button>
+            <button onclick="this.closest('.fixed').remove()" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
           </div>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
-            <div><p class="text-slate-400">PSA 10</p><p class="text-green-400 font-semibold text-xl">${card.psa10 ? '$' + card.psa10 : 'N/A'}</p></div>
-            <div><p class="text-slate-400">PSA 9</p><p class="text-green-400 font-semibold text-xl">${card.psa9 ? '$' + card.psa9 : 'N/A'}</p></div>
-            <div><p class="text-slate-400">TAG 10</p><p class="text-green-400 font-semibold text-xl">${card.tag10 ? '$' + card.tag10 : 'N/A'}</p></div>
-            <div><p class="text-slate-400">BGS 10</p><p class="text-green-400 font-semibold text-xl">${card.bgs10 ? '$' + card.bgs10 : 'N/A'}</p></div>
-            <div><p class="text-slate-400">Ungraded</p><p class="text-white font-semibold text-xl">${card.ungraded ? '$' + card.ungraded : 'N/A'}</p></div>
+            <div><p class="text-slate-400 text-xs">PSA 10</p><p class="text-emerald-400 font-semibold text-lg">${card.psa10 ? '$' + card.psa10 : 'N/A'}</p></div>
+            <div><p class="text-slate-400 text-xs">PSA 9</p><p class="text-emerald-400 font-semibold text-lg">${card.psa9 ? '$' + card.psa9 : 'N/A'}</p></div>
+            <div><p class="text-slate-400 text-xs">TAG 10</p><p class="text-emerald-400 font-semibold text-lg">${card.tag10 ? '$' + card.tag10 : 'N/A'}</p></div>
+            <div><p class="text-slate-400 text-xs">BGS 10</p><p class="text-emerald-400 font-semibold text-lg">${card.bgs10 ? '$' + card.bgs10 : 'N/A'}</p></div>
+            <div><p class="text-slate-400 text-xs">Ungraded</p><p class="text-white font-semibold text-lg">${card.ungraded ? '$' + card.ungraded : 'N/A'}</p></div>
           </div>
         </div>
       `;
@@ -339,13 +339,13 @@
         researchCards = data.cards || [];
         status.textContent = `Found ${researchCards.length} cards`;
         results.innerHTML = researchCards.map((card, i) => `
-          <div class="bg-slate-800 rounded-lg p-3 flex items-center gap-4">
-            ${card.image ? `<img src="${card.image}" class="w-16 h-auto rounded object-cover" alt="${card.name}">` : '<div class="w-16 h-20 bg-slate-700 rounded"></div>'}
+          <div class="bg-slate-900 rounded-lg p-3 flex items-center gap-4 border border-slate-800">
+            ${card.image ? `<img src="${card.image}" class="w-14 h-auto rounded object-cover" alt="${card.name}">` : '<div class="w-14 h-20 bg-slate-800 rounded"></div>'}
             <div class="flex-1">
-              <p class="font-medium">${card.name}</p>
-              <p class="text-sm text-slate-400">${card.set}</p>
+              <p class="font-medium text-sm">${card.name}</p>
+              <p class="text-xs text-slate-500">${card.set}</p>
             </div>
-            <button onclick="viewGrades(${i})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm whitespace-nowrap">View Grades</button>
+            <button onclick="viewGrades(${i})" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-xs whitespace-nowrap">View Grades</button>
           </div>
         `).join('');
         loadHistory();
@@ -360,15 +360,15 @@
       const market = parseFloat(document.getElementById('marketPrice').value);
       const result = document.getElementById('marginResult');
       if (!buy || !market) {
-        result.innerHTML = '<span class="text-yellow-400">Enter both prices</span>';
+        result.innerHTML = '<span class="text-amber-400 text-sm">Enter both prices</span>';
         return;
       }
       const profit = market - buy;
       const margin = ((profit / buy) * 100).toFixed(1);
       result.innerHTML = `
-        <div class="bg-slate-800 rounded p-3">
-          <p>Profit: <span class="text-green-400 font-semibold">$${profit.toFixed(2)}</span></p>
-          <p>Margin: <span class="text-green-400 font-semibold">${margin}%</span></p>
+        <div class="bg-slate-900 rounded-lg p-3 border border-slate-800 text-sm">
+          <p>Profit: <span class="text-emerald-400 font-semibold">$${profit.toFixed(2)}</span></p>
+          <p>Margin: <span class="text-emerald-400 font-semibold">${margin}%</span></p>
         </div>
       `;
     }
@@ -376,30 +376,32 @@
     async function loadHistory() {
       const list = document.getElementById('historyList');
       if (!list) return;
-      list.innerHTML = '<p class="text-slate-500">Loading...</p>';
+      list.innerHTML = '<p class="text-slate-500 text-sm">Loading...</p>';
       try {
         const res = await fetch('/api/research/history');
         const data = await res.json();
         const history = data.history || [];
         if (history.length === 0) {
-          list.innerHTML = '<p class="text-slate-500">No research yet</p>';
+          list.innerHTML = '<p class="text-slate-500 text-sm">No research yet</p>';
           return;
         }
         list.innerHTML = history.map(h => `
-          <div class="bg-slate-800 rounded p-2 flex justify-between">
+          <div class="bg-slate-900 rounded-lg p-2.5 flex justify-between items-center border border-slate-800">
             <div>
-              <p class="font-medium">${h.card_name || 'Unknown'}</p>
-              <p class="text-xs text-slate-400">${h.set_name || ''} • ${new Date(h.created_at).toLocaleDateString()}</p>
+              <p class="font-medium text-sm">${h.card_name || 'Unknown'}</p>
+              <p class="text-xs text-slate-500">${h.set_name || ''} • ${new Date(h.created_at).toLocaleDateString()}</p>
             </div>
-            <p class="text-green-400">${h.market_value ? '$' + h.market_value : 'N/A'}</p>
+            <p class="text-emerald-400 text-sm font-medium">${h.market_value ? '$' + h.market_value : 'N/A'}</p>
           </div>
         `).join('');
       } catch (err) {
-        list.innerHTML = '<p class="text-red-400">Failed to load history</p>';
+        list.innerHTML = '<p class="text-red-400 text-sm">Failed to load</p>';
       }
     }
 
     renderDeals();
+    // Set overview as active by default
+    document.querySelector('.nav-btn').classList.add('active');
   </script>
 </body>
 </html>
