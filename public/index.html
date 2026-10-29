@@ -121,7 +121,7 @@
       <section id="research" class="section hidden">
         <h2 class="text-2xl font-semibold mb-4">Research Bot</h2>
         <div class="card rounded-xl p-6 mb-4">
-          <p class="text-slate-400 mb-4">Look up graded prices (PSA 10 focus). Results saved to Supabase.</p>
+          <p class="text-slate-400 mb-4">Look up graded prices (PSA, TAG, BGS). Results saved to Supabase.</p>
           <div class="flex gap-3 mb-4">
             <input id="researchQuery" type="text" placeholder="e.g. charizard base set" class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-sm">
             <button onclick="runResearch()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium">Research</button>
@@ -281,10 +281,22 @@
           <div class="bg-slate-800 rounded-lg p-4">
             <p class="font-medium text-lg">${data.product || query}</p>
             <p class="text-sm text-slate-400">${data.set || ''}</p>
-            <div class="mt-3 grid grid-cols-2 gap-4 text-sm">
+            <div class="mt-4 grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
               <div>
                 <p class="text-slate-400">PSA 10</p>
                 <p class="text-green-400 font-semibold text-xl">${data.psa10 ? '$' + data.psa10 : 'N/A'}</p>
+              </div>
+              <div>
+                <p class="text-slate-400">PSA 9</p>
+                <p class="text-green-400 font-semibold text-xl">${data.psa9 ? '$' + data.psa9 : 'N/A'}</p>
+              </div>
+              <div>
+                <p class="text-slate-400">TAG 10</p>
+                <p class="text-green-400 font-semibold text-xl">${data.tag10 ? '$' + data.tag10 : 'N/A'}</p>
+              </div>
+              <div>
+                <p class="text-slate-400">BGS 10</p>
+                <p class="text-green-400 font-semibold text-xl">${data.bgs10 ? '$' + data.bgs10 : 'N/A'}</p>
               </div>
               <div>
                 <p class="text-slate-400">Ungraded</p>
