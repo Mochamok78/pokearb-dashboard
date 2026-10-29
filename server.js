@@ -97,12 +97,23 @@ app.post('/api/research', async (req, res) => {
     const { query } = req.body;
     if (!query) return res.status(400).json({ error: 'Query required' });
 
+    // Save the research request
+    const { data: saved, error } = await supabase.from('research').insert({
+      card_name: query,
+      notes: 'Research requested — graded prices pending',
+      status: 'pending'
+    }).select();
+
+    if (error) console.error('Supabase error:', error);
+
     res.json({
-      message: 'Research endpoint ready',
+      message: 'Research saved',
       query,
-      note: 'Waiting for graded price source integration'
+      note: 'Saved to Supabase. Graded prices will be added next.',
+      id: saved?.[0]?.id || null
     });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
