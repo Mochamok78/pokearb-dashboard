@@ -183,6 +183,8 @@
       { name: "Shanks OP09 Alt Art", game: "One Piece", ask: 75, market: 110, margin: 31 },
     ];
 
+    let researchCards = [];
+
     function renderDeals() {
       const body = document.getElementById('dealsBody');
       body.innerHTML = deals.map(d => `
@@ -254,14 +256,16 @@
       }
     }
 
-    function viewGrades(card) {
+    function viewGrades(index) {
+      const card = researchCards[index];
+      if (!card) return;
       const modal = document.createElement('div');
       modal.className = 'fixed inset-0 bg-black/70 flex items-center justify-center z-50';
       modal.innerHTML = `
         <div class="bg-slate-800 rounded-xl p-6 max-w-2xl w-full mx-4">
           <div class="flex justify-between items-start mb-4">
             <div class="flex gap-4">
-              ${card.image ? `<img src="${card.image}" class="w-24 h-auto rounded" alt="${card.name}">` : ''}
+              ${card.image ? `<img src="${card.image}" class="w-24 h-auto rounded" alt="${card.name}">` : '<div class="w-24 h-32 bg-slate-700 rounded"></div>'}
               <div>
                 <h3 class="text-xl font-semibold">${card.name}</h3>
                 <p class="text-sm text-slate-400">${card.set}</p>
@@ -303,16 +307,16 @@
           results.innerHTML = '';
           return;
         }
-        const cards = data.cards || [];
-        status.textContent = `Found ${cards.length} cards`;
-        results.innerHTML = cards.map((card) => `
+        researchCards = data.cards || [];
+        status.textContent = `Found ${researchCards.length} cards`;
+        results.innerHTML = researchCards.map((card, i) => `
           <div class="bg-slate-800 rounded-lg p-3 flex items-center gap-4">
             ${card.image ? `<img src="${card.image}" class="w-16 h-auto rounded object-cover" alt="${card.name}">` : '<div class="w-16 h-20 bg-slate-700 rounded"></div>'}
             <div class="flex-1">
               <p class="font-medium">${card.name}</p>
               <p class="text-sm text-slate-400">${card.set}</p>
             </div>
-            <button onclick="viewGrades(${JSON.stringify(card).replace(/"/g, '"')})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm whitespace-nowrap">View Grades</button>
+            <button onclick="viewGrades(${i})" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm whitespace-nowrap">View Grades</button>
           </div>
         `).join('');
       } catch (err) {
