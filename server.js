@@ -97,24 +97,49 @@ app.post('/api/research', async (req, res) => {
     const { query } = req.body;
     if (!query) return res.status(400).json({ error: 'Query required' });
 
-    // Save the research request
+    const key = process.env.POKEMON_PRICE_TRACKER_KEY;
+    if (!key) return res.status(500).json({ error: 'POKEMON_PRICE_TRACKER_KEY not set' });
+
+    const response = await axios.get('https://www.pokemonpricetracker.com/api/v2/cards', {
+      headers: { Authorization: `Bearer ${key}` },
+      params: {
+        search: query,
+        includeEbay: true,
+        limit: 5
+      }
+    });
+
+    const cards = response.data.data || [];
+    if (cards.length === 0) {
+      return res.json({ error: 'No cards found', query });
+    }
+
+    const top = cards[0];
+    const psa10 = top.ebay?.salesByGrade?.psa10?.medianPrice || null;
+    const ungraded = top.prices?.market || null;
+
     const { data: saved, error } = await supabase.from('research').insert({
-      card_name: query,
-      notes: 'Research requested — graded prices pending',
-      status: 'pending'
+      card_name: top.name || query,
+      set_name: top.set?.name || null,
+      grade: 'PSA 10',
+      market_value: psa10,
+      notes: JSON.stringify({ ungraded, all: top.ebay?.salesByGrade || {} }),
+      status: 'completed'
     }).select();
 
     if (error) console.error('Supabase error:', error);
 
     res.json({
-      message: 'Research saved',
-      query,
-      note: 'Saved to Supabase. Graded prices will be added next.',
-      id: saved?.[0]?.id || null
+      product: top.name,
+      set: top.set?.name,
+      psa10,
+      ungraded,
+      grades: top.ebay?.salesByGrade || {},
+      saved: saved?.[0] || null
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+    console.error(err.response?.data || err.message);
+    res.status(500).json({ error: err.response?.data?.error || err.message });
   }
 });
 
