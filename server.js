@@ -148,6 +148,22 @@ app.post('/api/research', async (req, res) => {
   }
 });
 
+app.get('/api/research/history', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('research')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error) throw error;
+    res.json({ history: data || [] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
