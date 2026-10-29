@@ -120,15 +120,14 @@
       <!-- Research Bot -->
       <section id="research" class="section hidden">
         <h2 class="text-2xl font-semibold mb-4">Research Bot</h2>
-        <div class="card rounded-xl p-6">
-          <p class="text-slate-400 mb-4">Pulls comps, gem rates (PSA/CGC), population reports, and calculates true margin after fees.</p>
-          <ul class="list-disc list-inside text-sm space-y-1 text-slate-300">
-            <li>eBay sold comps (last 30 days)</li>
-            <li>TCGPlayer market price</li>
-            <li>PSA 10 / CGC Pristine gem rate</li>
-            <li>Break-even calculator (grading + shipping + fees)</li>
-          </ul>
-          <button class="mt-4 px-4 py-2 bg-indigo-600 rounded-lg text-sm">Analyze Selected Deals</button>
+        <div class="card rounded-xl p-6 mb-4">
+          <p class="text-slate-400 mb-4">Look up graded prices (PSA 10 focus). Results will be saved to Supabase.</p>
+          <div class="flex gap-3 mb-4">
+            <input id="researchQuery" type="text" placeholder="e.g. charizard base set" class="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-sm">
+            <button onclick="runResearch()" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium">Research</button>
+          </div>
+          <div id="researchStatus" class="text-sm text-slate-400 mb-4"></div>
+          <div id="researchResults" class="space-y-3"></div>
         </div>
       </section>
 
@@ -240,7 +239,40 @@
           </div>
         `).join('');
       } catch (err) {
-        status.textContent = 'Failed to reach server. Is the dashboard running with node server.js?';
+        status.textContent = 'Failed to reach server.';
+      }
+    }
+
+    async function runResearch() {
+      const query = document.getElementById('researchQuery').value.trim();
+      const status = document.getElementById('researchStatus');
+      const results = document.getElementById('researchResults');
+      if (!query) {
+        status.textContent = 'Enter a card name';
+        return;
+      }
+      status.textContent = 'Researching...';
+      results.innerHTML = '';
+      try {
+        const res = await fetch('/api/research', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
+        });
+        const data = await res.json();
+        if (data.error) {
+          status.textContent = 'Error: ' + data.error;
+          return;
+        }
+        status.textContent = data.message || 'Done';
+        results.innerHTML = `
+          <div class="bg-slate-800 rounded-lg p-4">
+            <p class="font-medium">${data.query || query}</p>
+            <p class="text-sm text-slate-400 mt-1">${data.note || 'Research complete'}</p>
+          </div>
+        `;
+      } catch (err) {
+        status.textContent = 'Failed to reach server.';
       }
     }
 
